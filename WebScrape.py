@@ -4,9 +4,8 @@ from pymongo import MongoClient
 
 # Connect to the MongoDB database
 client = MongoClient()
-db = client.job_db
-jobs_collection = db.jobs 
-# Store job titles in jobs_collection
+db = client.job_db  # database name: job_db
+jobs_collection = db.jobs # collection name: jobs
 
 # Establish connection, then parse the text
 url = 'https://www.indeed.com/jobs?q=mechanic&l=Texas'
