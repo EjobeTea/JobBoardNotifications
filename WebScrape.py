@@ -3,17 +3,6 @@ import unittest
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 
-class TestUrlConnection(unittest.TestCase):
-    def test_url_connection():
-        url = 'https://chatgpt-website-nick-white.vercel.app/'
-        response = requests.get(url)
-        self.assertEqual(response.status_code, 200)
-        print(response.content)
-        print(response.headers)
-
-
-TestUrlConnection.test_url_connection()
-
 # Connect to the MongoDB database
 client = MongoClient()
 db = client.job_db  # database name: job_db
