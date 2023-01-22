@@ -1,12 +1,8 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 import time
 t = 0
 
 url = 'https://chatgpt-website-nick-white.vercel.app/'
-# Prevent site from closing after it loads
-chrome_options = Options()
-chrome_options.add_experimental_option("detach", True)
 
 # Create a new instance of the Chrome driver
 driver = webdriver.Chrome()

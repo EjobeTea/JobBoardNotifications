@@ -1,6 +1,8 @@
 import requests
+import time
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
+from selenium import webdriver
 
 def DatabaseTest():
     # Counting the number of documents in the collection
@@ -19,51 +21,31 @@ client = MongoClient()
 db = client.job_db  # database name: job_db
 jobs_collection = db.jobs # collection name: jobs
 
-# Establish connection, then parse the text
+# Establish connection
 url = 'https://chatgpt-website-nick-white.vercel.app/'
+
+# Create a new instance of the Chrome driver
+driver = webdriver.Chrome()
+
+# Navigate to the site
+driver.get(url)
+print(driver.title)
+print(driver.current_url)
+
+# init soup for html parsing
 response = requests.get(url)
 soup = BeautifulSoup(response.content, 'html.parser')
 
+## implementation details for webscraping in beautiful soup go here
 job_locations = soup.find_all("p", {"class": "job-location"})
-print(job_locations)
+for location in job_locations:
+    print(location.text)
 
-results = soup.find_all('p', class_="job-company")
-print(results)
+DatabaseTest()
 
-
-
-
-
-
-
-######################################################
-# job_titles = soup.find_all("div", {"class": "job"})
-
-# for title in job_titles:
-#     position = title.find("h2", {"class": "job-title"}) # Note:job-title is from the html on *this* site; prepare to change it.
-#     location = title.find("div", {"class": "job-location"})
-#     #Check for job and location
-#     if position and location and "Full Stack Developer" in position.text and "NY" in location.text:
-#         job_title = position.text.strip()
-#         job_location = location.text.strip()
-#         print(f'{job_title} in {job_location}')
-
-#         # Check if the job already exists in the database
-#         if not jobs_collection.find_one({'title': job_title, 'location': job_location}):
-#             # Insert the job into the database
-#             jobs_collection.insert_one({'title': job_title, 'location': job_location})
-#             print(f'{job_title} in {job_location} added to the database')
-#         else:
-#             print(f'{job_title} in {job_location} already exists in the database')
-#     else:
-#         print("No Matching Job Found")
-
-# DatabaseTest()
-
-# cards = soup.find_all('div', class_='job-card')
-# for card in cards:
-#     print(card.find("h2", {"class": "job-title"}))
-
-# job_locations = soup.find_all('p', class_='job-location')
-# locations = [location.text for location in job_locations]
-# print(locations)
+t = 0
+# chrome tools keep quitting program;
+# infinitely not quit.
+while t < 10:
+    time.sleep(t)
+driver.quit()
