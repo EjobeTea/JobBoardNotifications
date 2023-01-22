@@ -22,33 +22,48 @@ jobs_collection = db.jobs # collection name: jobs
 # Establish connection, then parse the text
 url = 'https://chatgpt-website-nick-white.vercel.app/'
 response = requests.get(url)
-soup = BeautifulSoup(response.text, 'html.parser')
+soup = BeautifulSoup(response.content, 'html.parser')
 
-job_titles = soup.find_all("div", {"class": "job"})
+job_locations = soup.find_all("p", {"class": "job-location"})
+print(job_locations)
 
-for title in job_titles:
-    position = title.find("h2", {"class": "job-title"}) # Note:job-title is from the html on *this* site; prepare to change it.
-    location = title.find("div", {"class": "job-location"})
+results = soup.find_all('p', class_="job-company")
+print(results)
 
-    #Check for job and location
-    if position and location and "Full Stack Developer" in position.text and "NY" in location.text:
-        job_title = position.text.strip()
-        job_location = location.text.strip()
-        print(f'{job_title} in {job_location}')
 
-        # Check if the job already exists in the database
-        if not jobs_collection.find_one({'title': job_title, 'location': job_location}):
-            # Insert the job into the database
-            jobs_collection.insert_one({'title': job_title, 'location': job_location})
-            print(f'{job_title} in {job_location} added to the database')
-        else:
-            print(f'{job_title} in {job_location} already exists in the database')
-    else:
-        print("No Matching Job Found")
 
-DatabaseTest()
 
-cards = soup.find_all('div', class_='job-card')
-print(response.main)
-for card in cards:
-    print(card.find("h2", {"class": "job-title"}))
+
+
+
+######################################################
+# job_titles = soup.find_all("div", {"class": "job"})
+
+# for title in job_titles:
+#     position = title.find("h2", {"class": "job-title"}) # Note:job-title is from the html on *this* site; prepare to change it.
+#     location = title.find("div", {"class": "job-location"})
+#     #Check for job and location
+#     if position and location and "Full Stack Developer" in position.text and "NY" in location.text:
+#         job_title = position.text.strip()
+#         job_location = location.text.strip()
+#         print(f'{job_title} in {job_location}')
+
+#         # Check if the job already exists in the database
+#         if not jobs_collection.find_one({'title': job_title, 'location': job_location}):
+#             # Insert the job into the database
+#             jobs_collection.insert_one({'title': job_title, 'location': job_location})
+#             print(f'{job_title} in {job_location} added to the database')
+#         else:
+#             print(f'{job_title} in {job_location} already exists in the database')
+#     else:
+#         print("No Matching Job Found")
+
+# DatabaseTest()
+
+# cards = soup.find_all('div', class_='job-card')
+# for card in cards:
+#     print(card.find("h2", {"class": "job-title"}))
+
+# job_locations = soup.find_all('p', class_='job-location')
+# locations = [location.text for location in job_locations]
+# print(locations)
