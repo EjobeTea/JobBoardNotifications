@@ -1,4 +1,4 @@
-# JobBoardNotifications
+# Shift Notifier
 Web scraping tool with Python, utilizing MongoDB for data storage, Selenium for automation and HTMLparsing, and the Slack API for notifications.
 
 ## How to run
